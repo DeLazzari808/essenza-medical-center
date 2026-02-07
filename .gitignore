@@ -37,3 +37,6 @@ build
 # Next.js
 .next
 
+
+# clerk configuration (can include secrets)
+/.clerk/

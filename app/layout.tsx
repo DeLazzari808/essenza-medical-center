@@ -3,9 +3,9 @@ import { ToastProvider } from "@/contexts/ToastContext";
 import "./globals.css";
 
 export const metadata = {
-  title: "WorkNow - Plataforma de Locação de Salas Comerciais",
+  title: "Essenza Medical Center - Espaços Clínicos de Alto Padrão",
   description:
-    "Plataforma moderna para locação de salas comerciais. Conecte proprietários e locatários de forma simples e eficiente.",
+    "Espaços clínicos de alto padrão para profissionais de saúde. Consultórios equipados, estúdio de podcast, teatro e hub digital.",
 };
 
 export default function RootLayout({

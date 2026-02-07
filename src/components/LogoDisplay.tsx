@@ -3,7 +3,7 @@ import React, { useState } from 'react'
 import { Building2 } from 'lucide-react'
 
 const LogoDisplay = () => {
-  const [logoSrc, setLogoSrc] = useState('/assets/images/logo.svg')
+  const [logoSrc, setLogoSrc] = useState('/assets/images/LOGO ESSENZA_page-0002.jpg')
   const [showFallback, setShowFallback] = useState(false)
 
   if (showFallback) {
@@ -15,10 +15,10 @@ const LogoDisplay = () => {
   }
 
   return (
-    <img 
+    <img
       src={logoSrc}
-      alt="WorkNow Logo" 
-      className="h-10 w-auto"
+      alt="Essenza Medical Center"
+      className="h-14 w-auto"
       onError={() => {
         if (logoSrc.includes('.svg')) {
           setLogoSrc('/assets/images/logo.png')

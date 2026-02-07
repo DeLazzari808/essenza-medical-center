@@ -1,21 +1,22 @@
 {
-  "name": "worknow",
+  "name": "essenza-medical-center",
   "version": "1.0.0",
-  "description": "Plataforma moderna para locação de salas comerciais. Conecte proprietários e locatários de forma simples e eficiente.",
-  "author": "WorkNow Team",
+  "description": "Espaços clínicos de alto padrão para profissionais de saúde. Consultórios equipados, estúdio de podcast, teatro e hub digital.",
+  "author": "Essenza Medical Center",
   "license": "MIT",
   "keywords": [
-    "locação",
-    "salas comerciais",
-    "coworking",
+    "consultórios",
+    "salas médicas",
+    "centro médico",
     "reservas",
+    "saúde",
     "react",
     "supabase",
     "stripe"
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/yourusername/worknow.git"
+    "url": "https://github.com/yourusername/essenza-medical-center.git"
   },
   "private": true,
   "type": "module",

@@ -9,7 +9,8 @@ import Loading from '../../components/Loading'
 import {
   ArrowRight,
   MapPin,
-  Sparkles
+  Sparkles,
+  Stethoscope
 } from 'lucide-react'
 
 // Lazy Load Heavy Sections
@@ -18,6 +19,7 @@ const HowItWorksSection = lazy(() => import('./HowItWorksSection'))
 const TestimonialsSection = lazy(() => import('./TestimonialsSection'))
 const FAQSection = lazy(() => import('./FAQSection'))
 const TechStackSection = lazy(() => import('./TechStackSection'))
+const AppPreviewSection = lazy(() => import('./AppPreviewSection'))
 const CTASection = lazy(() => import('./CTASection'))
 const LandingFooter = lazy(() => import('./LandingFooter'))
 
@@ -29,24 +31,24 @@ const HeroCarousel = () => {
   const featuredRooms = React.useMemo(() => [
     {
       id: 1,
-      title: "Sala Executiva Paulista",
-      price: "R$ 1.200/mês",
-      image: "https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&q=80&w=800",
-      location: "São Paulo, SP"
+      title: "Consultório Médico Premium",
+      price: "R$ 500/período",
+      image: "https://images.unsplash.com/photo-1629909613654-28e377c37b09?auto=format&fit=crop&q=80&w=800",
+      location: "Essenza Medical Center"
     },
     {
       id: 2,
-      title: "Creative Hub Faria Lima",
-      price: "R$ 850/mês",
-      image: "https://images.unsplash.com/photo-1497366811353-6870744d04b2?auto=format&fit=crop&q=80&w=800",
-      location: "São Paulo, SP"
+      title: "Sala de Procedimentos",
+      price: "R$ 600/período",
+      image: "https://images.unsplash.com/photo-1631217868264-e5b90bb7e133?auto=format&fit=crop&q=80&w=800",
+      location: "Essenza Medical Center"
     },
     {
       id: 3,
-      title: "Tech Space Vila Olímpia",
-      price: "R$ 2.500/mês",
-      image: "https://images.unsplash.com/photo-1524758631624-e2822e304c36?auto=format&fit=crop&q=80&w=800",
-      location: "São Paulo, SP"
+      title: "Consultório Especializado",
+      price: "R$ 550/período",
+      image: "https://images.unsplash.com/photo-1666214280557-f1b5022eb634?auto=format&fit=crop&q=80&w=800",
+      location: "Essenza Medical Center"
     }
   ], [])
 
@@ -78,7 +80,7 @@ const HeroCarousel = () => {
               alt={room.title}
               loading={idx === 0 ? "eager" : "lazy"}
               decoding="async"
-              fetchpriority={idx === current ? "high" : "low"}
+              fetchPriority={idx === current ? "high" : "low"}
               className="w-full h-full object-cover transition-transform duration-[8000ms] ease-linear transform scale-100 group-hover:scale-105"
               style={{ willChange: idx === current ? 'transform' : 'auto' }}
             />
@@ -89,7 +91,7 @@ const HeroCarousel = () => {
           {/* Content Overlay */}
           <div className="absolute bottom-0 inset-x-0 p-8 md:p-12 text-white">
             <div className="animate-slide-up">
-              <span className="inline-block px-3 py-1 mb-4 text-xs font-bold tracking-wider uppercase bg-primary-600/90 backdrop-blur-md rounded-full text-white shadow-lg">
+              <span className="inline-block px-3 py-1 mb-4 text-xs font-bold tracking-wider uppercase bg-primary-600/90 backdrop-blur-md rounded-full text-neutral-900 shadow-lg">
                 Destaque
               </span>
               <h3 className="text-3xl md:text-4xl font-display font-bold mb-2 leading-tight">
@@ -97,7 +99,7 @@ const HeroCarousel = () => {
               </h3>
               <div className="flex items-center gap-4 text-white/90 mb-6">
                 <span className="flex items-center gap-1.5 text-sm font-medium">
-                  <MapPin className="w-4 h-4 text-primary-400" />
+                  <MapPin className="w-4 h-4 text-primary-300" />
                   {room.location}
                 </span>
                 <span className="w-1 h-1 rounded-full bg-white/50" />
@@ -186,7 +188,7 @@ const LandingPage = () => {
           <div className="flex justify-between items-center h-16">
             <div className="flex items-center gap-3">
               <LogoDisplay />
-              <span className={`text-xl font-bold tracking-tight transition-colors duration-300 ${scrolled ? 'text-neutral-900' : 'text-neutral-900'}`}>WorkNow</span>
+              <span className={`text-xl font-bold tracking-tight transition-colors duration-300 ${scrolled ? 'text-neutral-900' : 'text-neutral-900'}`}>Essenza</span>
             </div>
             <div className="flex items-center gap-4 hidden sm:flex">
               <Link href="/login">
@@ -194,7 +196,7 @@ const LandingPage = () => {
               </Link>
               <Link href="/register">
                 <Button variant="primary" className="shadow-lg shadow-primary-500/20 rounded-full px-6 py-2 text-sm font-semibold hover:shadow-primary-500/40 transition-all hover:scale-105 active:scale-95">
-                  Começar Grátis
+                  Reserve seu Espaço
                 </Button>
               </Link>
             </div>
@@ -204,6 +206,14 @@ const LandingPage = () => {
 
       {/* Hero Section - Enhanced with Animated Gradient Background */}
       <section className="relative pt-48 pb-32 lg:pt-56 lg:pb-40 overflow-hidden">
+        {/* Logo Background */}
+        <div className="absolute inset-0 flex items-center justify-center opacity-10 pointer-events-none" aria-hidden="true">
+          <img
+            src="/assets/images/LOGO ESSENZA_page-0002.jpg"
+            alt=""
+            className="w-[80%] max-w-4xl h-auto object-contain"
+          />
+        </div>
         {/* NEW: Animated Gradient Background */}
         <AnimatedGradientBg />
 
@@ -218,52 +228,52 @@ const LandingPage = () => {
                   <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary-400 opacity-75"></span>
                   <span className="relative inline-flex rounded-full h-2 w-2 bg-primary-500"></span>
                 </span>
-                <span className="text-xs font-semibold uppercase tracking-wider text-neutral-600">Disponível em todo Brasil</span>
+                <span className="text-xs font-semibold uppercase tracking-wider text-neutral-600">Empreendimento de Alto Padrão</span>
               </div>
 
               {/* Main Headline with Enhanced Gradient Text */}
               <h1 className="text-5xl lg:text-7xl font-bold text-neutral-900 mb-8 leading-[1.1] tracking-tight animate-fade-in-up animation-delay-200">
-                Conecte-se ao <br />
-                espaço ideal para{' '}
+                Essenza <br />
                 <span className="relative inline-block">
-                  <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary-600 via-emerald-500 to-teal-500 animate-text-shimmer bg-[length:200%_auto]">
-                    o seu negócio
+                  <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary-600 via-primary-400 to-primary-500 animate-text-shimmer bg-[length:200%_auto]">
+                    Medical Center
                   </span>
                   {/* Decorative sparkle */}
-                  <Sparkles className="absolute -top-2 -right-6 w-6 h-6 text-accent-500 animate-float" />
+                  <Sparkles className="absolute -top-2 -right-6 w-6 h-6 text-primary-500 animate-float" />
                 </span>
-                .
               </h1>
 
               {/* Subheadline */}
               <p className="text-lg text-neutral-600 mb-10 leading-relaxed max-w-lg mx-auto lg:mx-0 animate-fade-in-up animation-delay-400 font-medium">
-                A plataforma completa que une profissionais em busca de flexibilidade a proprietários que valorizam gestão inteligente.
+                Espaços clínicos de alto padrão para profissionais de saúde. Consultórios equipados, estúdio de podcast, teatro e hub digital.
               </p>
 
               {/* CTA Section */}
               <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start items-center animate-fade-in-up animation-delay-600">
                 <Link href="/register" className="w-full sm:w-auto">
-                  <Button variant="primary" size="lg" className="w-full sm:w-auto rounded-full px-8 h-14 text-base font-bold shadow-xl shadow-primary-500/20 hover:shadow-primary-500/40 hover:-translate-y-1 transition-all bg-gradient-to-r from-primary-600 to-emerald-600 border-none group">
-                    Começar Agora
+                  <Button variant="primary" size="lg" className="w-full sm:w-auto rounded-full px-8 h-14 text-base font-bold shadow-xl shadow-primary-500/20 hover:shadow-primary-500/40 hover:-translate-y-1 transition-all bg-gradient-to-r from-primary-600 to-primary-500 border-none group">
+                    Reserve seu Espaço
                     <ArrowRight className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" />
                   </Button>
                 </Link>
                 <div className="flex items-center gap-4 text-sm font-medium text-neutral-500">
                   <div className="flex -space-x-2">
                     {[1, 2, 3, 4].map(i => (
-                      <div key={i} className="w-8 h-8 rounded-full border-2 border-white bg-gradient-to-br from-primary-200 to-primary-300 shadow-sm" />
+                      <div key={i} className="w-8 h-8 rounded-full border-2 border-white bg-gradient-to-br from-primary-200 to-primary-300 shadow-sm flex items-center justify-center">
+                        <Stethoscope className="w-4 h-4 text-primary-700" />
+                      </div>
                     ))}
                   </div>
-                  <span>+2.000 profissionais</span>
+                  <span>Corpo clínico seleto</span>
                 </div>
               </div>
 
               {/* Trust Badges */}
               <div className="mt-12 pt-8 border-t border-neutral-200/50 animate-fade-in-up animation-delay-600">
-                <p className="text-xs uppercase tracking-wider text-neutral-400 mb-4">Confiado por empresas</p>
+                <p className="text-xs uppercase tracking-wider text-neutral-400 mb-4">Infraestrutura completa</p>
                 <div className="flex flex-wrap items-center justify-center lg:justify-start gap-6 opacity-60">
-                  {['Startup SP', 'Tech Hub', 'Cowork BR', 'Office Plus'].map((company, i) => (
-                    <span key={i} className="text-sm font-semibold text-neutral-500">{company}</span>
+                  {['14 Consultórios', 'Estúdio Podcast', 'Teatro 100 lugares', 'Hub Digital'].map((item, i) => (
+                    <span key={i} className="text-sm font-semibold text-neutral-500">{item}</span>
                   ))}
                 </div>
               </div>
@@ -285,6 +295,7 @@ const LandingPage = () => {
       }>
         <FeaturesSection />
         <HowItWorksSection />
+        <AppPreviewSection />
         <TestimonialsSection />
         <FAQSection />
         <TechStackSection />

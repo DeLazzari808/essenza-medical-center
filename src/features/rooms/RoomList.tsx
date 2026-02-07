@@ -77,17 +77,17 @@ const RoomList = () => {
 
   // Quick filter chips
   const quickFilters = [
-    { label: 'São Paulo', value: 'São Paulo', type: 'city', icon: MapPin },
-    { label: 'Rio de Janeiro', value: 'Rio de Janeiro', type: 'city', icon: MapPin },
+    { label: 'Salas Médicas', value: 'Sala Médica', type: 'search', icon: MapPin },
+    { label: 'Estúdio', value: 'Podcast', type: 'search', icon: MapPin },
     { label: 'Bem Avaliados', value: 'rating', type: 'sort', icon: Star },
     { label: 'Menor Preço', value: 'price_asc', type: 'price', icon: SortAsc },
   ]
 
   const handleQuickFilter = (filter) => {
-    if (filter.type === 'city') {
+    if (filter.type === 'search') {
       setFilters(prev => ({
         ...prev,
-        city: prev.city === filter.value ? '' : filter.value
+        search: prev.search === filter.value ? '' : filter.value
       }))
     } else if (filter.type === 'sort') {
       setSortBy('rating')
@@ -145,10 +145,10 @@ const RoomList = () => {
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-8">
           <div>
             <h1 className="text-3xl font-display font-bold text-neutral-900">
-              {isOwner ? 'Minhas Salas' : 'Salas Disponíveis'}
+              {isOwner ? 'Gerenciar Espaços' : 'Espaços Clínicos'}
             </h1>
             <p className="text-neutral-500 mt-1">
-              {isOwner ? 'Gerencie suas salas comerciais e acompanhe o desempenho.' : 'Encontre o espaço perfeito para trabalhar com nossa seleção curada.'}
+              {isOwner ? 'Gerencie os espaços clínicos do Essenza Medical Center.' : 'Encontre o espaço ideal para sua prática médica.'}
             </p>
           </div>
 
@@ -159,7 +159,7 @@ const RoomList = () => {
               className="shadow-lg shadow-primary-500/20"
             >
               <Plus className="w-5 h-5 mr-2" />
-              Nova Sala
+              Novo Espaço
             </Button>
           )}
         </div>
@@ -174,7 +174,7 @@ const RoomList = () => {
               <span className="text-sm font-medium text-neutral-500 mr-2">Filtros rápidos:</span>
               {quickFilters.map((filter) => {
                 const isActive =
-                  (filter.type === 'city' && filters.city === filter.value) ||
+                  (filter.type === 'search' && filters.search === filter.value) ||
                   (filter.type === 'sort' && sortBy === 'rating') ||
                   (filter.type === 'price' && sortBy === 'price' && sortOrder === 'asc')
                 const Icon = filter.icon
@@ -262,7 +262,7 @@ const RoomList = () => {
                 <div className="text-sm font-medium text-neutral-500">
                   {loading
                     ? <Skeleton className="w-32 h-4 rounded" />
-                    : `${rooms.length} sala${rooms.length !== 1 ? 's' : ''} encontrada${rooms.length !== 1 ? 's' : ''}`
+                    : `${rooms.length} espaço${rooms.length !== 1 ? 's' : ''} encontrado${rooms.length !== 1 ? 's' : ''}`
                   }
                 </div>
 
@@ -342,16 +342,16 @@ const RoomList = () => {
         ) : rooms.length === 0 ? (
           <div className="mt-12">
             <EmptyState
-              title={isOwner ? 'Nenhuma sala cadastrada' : 'Nenhuma sala encontrada'}
+              title={isOwner ? 'Nenhum espaço cadastrado' : 'Nenhum espaço encontrado'}
               description={
                 isOwner
-                  ? 'Comece adicionando sua primeira sala comercial para atrair clientes.'
-                  : 'Não encontramos salas com os filtros selecionados. Tente buscar em outra cidade ou remova alguns filtros.'
+                  ? 'Comece adicionando o primeiro espaço clínico do Essenza Medical Center.'
+                  : 'Não encontramos espaços com os filtros selecionados. Tente remover alguns filtros.'
               }
               action={
                 isOwner ? (
                   <Button onClick={() => router.push('/app/rooms/new')} variant="primary" size="lg">
-                    Adicionar Primeira Sala
+                    Adicionar Primeiro Espaço
                   </Button>
                 ) : (
                   <Button onClick={() => setFilters({

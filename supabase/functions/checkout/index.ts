@@ -1,5 +1,6 @@
 // Supabase Edge Function: checkout
-// Cria booking 'pending' e gera Stripe Checkout Session
+// Cria booking(s) 'pending' e gera Stripe Checkout Session
+// Essenza Medical Center - Sistema de reserva por períodos
 import Stripe from 'https://esm.sh/stripe@14.21.0?target=deno'
 import { serve } from 'https://deno.land/std@0.177.0/http/server.ts'
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2'
@@ -11,10 +12,17 @@ const SUPABASE_ANON_KEY = Deno.env.get('SUPABASE_ANON_KEY')!
 
 const stripe = new Stripe(STRIPE_SECRET_KEY, { apiVersion: '2024-06-20' })
 
+type Period = 'morning' | 'afternoon'
+
+type PeriodSelection = {
+  date: string // formato YYYY-MM-DD
+  period: Period
+}
+
 type Body = {
   room_id: string
-  start_time: string
-  end_time: string
+  periods: PeriodSelection[]
+  notes?: string
 }
 
 const corsHeaders = {
@@ -29,16 +37,16 @@ serve(async (req) => {
   }
 
   if (req.method !== 'POST') {
-    return new Response('Method Not Allowed', { 
+    return new Response('Method Not Allowed', {
       status: 405,
-      headers: corsHeaders 
+      headers: corsHeaders
     })
   }
 
   try {
     const authHeader = req.headers.get('Authorization')
     if (!authHeader) {
-      return new Response(JSON.stringify({ error: 'Unauthorized' }), { 
+      return new Response(JSON.stringify({ error: 'Unauthorized' }), {
         status: 401,
         headers: {
           'Content-Type': 'application/json',
@@ -47,9 +55,9 @@ serve(async (req) => {
       })
     }
 
-    const { room_id, start_time, end_time } = (await req.json()) as Body
-    if (!room_id || !start_time || !end_time) {
-      return new Response(JSON.stringify({ error: 'Missing fields' }), { 
+    const { room_id, periods, notes } = (await req.json()) as Body
+    if (!room_id || !periods || periods.length === 0) {
+      return new Response(JSON.stringify({ error: 'Missing fields: room_id and periods are required' }), {
         status: 400,
         headers: {
           'Content-Type': 'application/json',
@@ -65,35 +73,8 @@ serve(async (req) => {
     // Obter usuário logado
     const { data: { user }, error: userErr } = await supabase.auth.getUser()
     if (userErr || !user) {
-      return new Response(JSON.stringify({ error: 'Unauthorized' }), { 
+      return new Response(JSON.stringify({ error: 'Unauthorized' }), {
         status: 401,
-        headers: {
-          'Content-Type': 'application/json',
-          ...corsHeaders
-        }
-      })
-    }
-
-    // 1. Verificar disponibilidade (Check de colisão)
-    // O range filter do Supabase ou overlap manual
-    const { data: conflicts, error: conflictErr } = await supabase
-      .from('bookings')
-      .select('id')
-      .eq('room_id', room_id)
-      .neq('status', 'cancelled') // Ignora cancelados
-      // Lógica de overlap: (StartA < EndB) AND (EndA > StartB)
-      .lt('start_time', end_time)
-      .gt('end_time', start_time)
-      .limit(1)
-
-    if (conflictErr) {
-       console.error('Availability check error:', conflictErr)
-       throw new Error('Failed to check availability')
-    }
-
-    if (conflicts && conflicts.length > 0) {
-      return new Response(JSON.stringify({ error: 'Selected time slot is not available.' }), { 
-        status: 409,
         headers: {
           'Content-Type': 'application/json',
           ...corsHeaders
@@ -104,11 +85,12 @@ serve(async (req) => {
     // Carregar sala
     const { data: room, error: roomErr } = await supabase
       .from('rooms')
-      .select('id,title,price_per_day,price_per_hour')
+      .select('id, title, price_per_period, price_per_day, price_per_hour')
       .eq('id', room_id)
       .single()
+
     if (roomErr || !room) {
-      return new Response(JSON.stringify({ error: 'Room not found' }), { 
+      return new Response(JSON.stringify({ error: 'Room not found' }), {
         status: 404,
         headers: {
           'Content-Type': 'application/json',
@@ -117,100 +99,129 @@ serve(async (req) => {
       })
     }
 
-    const start = new Date(start_time)
-    const end = new Date(end_time)
-    if (!(start < end)) {
-      return new Response(JSON.stringify({ error: 'Invalid interval' }), { 
-        status: 400,
-        headers: {
-          'Content-Type': 'application/json',
-          ...corsHeaders
-        }
-      })
-    }
-    
-    // Calcular dias (arredondado para cima)
-    const diffMs = end.getTime() - start.getTime()
-    const diffHours = diffMs / (1000 * 60 * 60)
-    const days = Math.ceil(diffHours / 24)
-    
-    // Usar price_per_day se disponível, senão calcular a partir de price_per_hour (assumindo 8h/dia)
-    const pricePerDay = room.price_per_day || (room.price_per_hour ? room.price_per_hour * 8 : 0)
-    
-    // Aplicar descontos progressivos
-    let discountPercent = 0
-    if (days >= 31) {
-      discountPercent = 35 // 1 mês ou mais: 35%
-    } else if (days >= 14) {
-      discountPercent = 25 // 2 semanas ou mais: 25%
-    } else if (days >= 7) {
-      discountPercent = 15 // 1 semana ou mais: 15%
-    } else if (days >= 2) {
-      discountPercent = Math.min((days - 1) * 5, 25) // 2-6 dias: 5% por dia adicional (máx 25%)
-    }
-    // 1 dia: sem desconto (0%)
-    
-    const basePrice = pricePerDay * days
-    const discount = (basePrice * discountPercent) / 100
-    const finalPrice = basePrice - discount
-    const totalCents = Math.round(finalPrice * 100)
+    // Verificar disponibilidade de todos os períodos
+    for (const p of periods) {
+      const { data: conflicts, error: conflictErr } = await supabase
+        .from('bookings')
+        .select('id')
+        .eq('room_id', room_id)
+        .eq('date', p.date)
+        .eq('period', p.period)
+        .in('status', ['pending', 'confirmed'])
+        .limit(1)
 
-    // Inserir booking pending (RLS com usuário logado)
-    const { data: booking, error: bookErr } = await supabase
-      .from('bookings')
-      .insert({
-        room_id,
-        user_id: user.id,
-        start_time,
-        end_time,
-        total_price: (totalCents / 100).toFixed(2),
-        status: 'pending',
-      })
-      .select('id')
-      .single()
-    if (bookErr || !booking) {
-      console.error('Booking Insert Error:', bookErr)
-      // Pode estourar exclusão por overlap
-      return new Response(JSON.stringify({ error: 'Reserva indisponível ou conflito de horário.' }), { 
-        status: 409,
-        headers: {
-          'Content-Type': 'application/json',
-          ...corsHeaders
-        }
-      })
+      if (conflictErr) {
+        console.error('Availability check error:', conflictErr)
+        throw new Error('Failed to check availability')
+      }
+
+      if (conflicts && conflicts.length > 0) {
+        const periodLabel = p.period === 'morning' ? 'Manhã' : 'Tarde'
+        return new Response(JSON.stringify({
+          error: `O período ${periodLabel} do dia ${p.date} não está disponível.`
+        }), {
+          status: 409,
+          headers: {
+            'Content-Type': 'application/json',
+            ...corsHeaders
+          }
+        })
+      }
     }
+
+    // Calcular preço total
+    const pricePerPeriod = room.price_per_period || room.price_per_day || room.price_per_hour || 0
+    const totalPrice = pricePerPeriod * periods.length
+    const totalCents = Math.round(totalPrice * 100)
+
+    // Criar bookings para cada período
+    const bookingIds: string[] = []
+
+    for (const p of periods) {
+      const { data: booking, error: bookErr } = await supabase
+        .from('bookings')
+        .insert({
+          room_id,
+          user_id: user.id,
+          date: p.date,
+          period: p.period,
+          total_price: pricePerPeriod,
+          status: 'pending',
+          notes: notes || null,
+        })
+        .select('id')
+        .single()
+
+      if (bookErr || !booking) {
+        console.error('Booking Insert Error:', bookErr)
+        // Se falhar, tentar cancelar as anteriores
+        if (bookingIds.length > 0) {
+          await supabase
+            .from('bookings')
+            .update({ status: 'cancelled' })
+            .in('id', bookingIds)
+        }
+        return new Response(JSON.stringify({
+          error: 'Reserva indisponível ou conflito de horário.'
+        }), {
+          status: 409,
+          headers: {
+            'Content-Type': 'application/json',
+            ...corsHeaders
+          }
+        })
+      }
+
+      bookingIds.push(booking.id)
+    }
+
+    // Criar descrição dos períodos para o Stripe
+    const periodDescriptions = periods.map(p => {
+      const periodLabel = p.period === 'morning' ? 'Manhã' : 'Tarde'
+      return `${p.date} (${periodLabel})`
+    }).join(', ')
 
     // Criar sessão de checkout
     const session = await stripe.checkout.sessions.create({
       mode: 'payment',
-      success_url: `${PUBLIC_APP_URL}/bookings?status=success`,
-      cancel_url: `${PUBLIC_APP_URL}/rooms/${room_id}?status=cancel`,
+      success_url: `${PUBLIC_APP_URL}/app/bookings?status=success`,
+      cancel_url: `${PUBLIC_APP_URL}/app/rooms/${room_id}?status=cancel`,
       line_items: [
         {
           price_data: {
             currency: 'brl',
-            product_data: { name: `Reserva: ${room.title}` },
+            product_data: {
+              name: `Reserva: ${room.title}`,
+              description: `${periods.length} período(s): ${periodDescriptions}`
+            },
             unit_amount: totalCents,
           },
           quantity: 1,
         },
       ],
-      metadata: { booking_id: booking.id, room_id },
+      metadata: {
+        booking_ids: bookingIds.join(','),
+        room_id,
+        periods_count: periods.length.toString()
+      },
     })
 
-    // Persistir stripe_session_id
-    await supabase.from('bookings').update({ stripe_session_id: session.id }).eq('id', booking.id)
+    // Persistir stripe_session_id em todos os bookings
+    await supabase
+      .from('bookings')
+      .update({ stripe_session_id: session.id })
+      .in('id', bookingIds)
 
     return new Response(JSON.stringify({ url: session.url }), {
-      headers: { 
+      headers: {
         'Content-Type': 'application/json',
-        ...corsHeaders 
+        ...corsHeaders
       },
       status: 200,
     })
   } catch (e) {
     console.error('Checkout Function Error:', e)
-    return new Response(JSON.stringify({ error: 'Erro interno ao processar pagamento.' }), { 
+    return new Response(JSON.stringify({ error: 'Erro interno ao processar pagamento.' }), {
       status: 500,
       headers: {
         'Content-Type': 'application/json',
@@ -219,5 +230,3 @@ serve(async (req) => {
     })
   }
 })
-
-

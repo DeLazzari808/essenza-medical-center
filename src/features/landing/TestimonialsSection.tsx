@@ -5,48 +5,48 @@ import { ChevronLeft, ChevronRight, Quote, Star } from 'lucide-react'
 const testimonials = [
   {
     id: 1,
-    name: 'Marina Santos',
-    role: 'CEO, TechStart',
-    avatar: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=150&q=80',
-    content: 'O WorkNow transformou a forma como gerenciamos nossos escritórios. A plataforma é intuitiva e o suporte é excepcional. Economizamos mais de 30% em custos operacionais.',
+    name: 'Dra. Marina Santos',
+    role: 'Dermatologista',
+    avatar: 'https://images.unsplash.com/photo-1559839734-2b71ea197ec2?auto=format&fit=crop&w=150&q=80',
+    content: 'O Essenza Medical Center transformou meu atendimento. Os consultórios são impecáveis e a infraestrutura permite que eu foque totalmente nos meus pacientes. A reserva por períodos é muito prática.',
     rating: 5,
-    company: 'TechStart'
+    specialty: 'Dermatologia'
   },
   {
     id: 2,
-    name: 'Ricardo Oliveira',
-    role: 'Fundador, Design Lab',
-    avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=150&q=80',
-    content: 'Encontrei o espaço perfeito para meu estúdio em menos de uma semana. O processo de contrato digital foi incrivelmente rápido e seguro.',
+    name: 'Dr. Ricardo Oliveira',
+    role: 'Cardiologista',
+    avatar: 'https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?auto=format&fit=crop&w=150&q=80',
+    content: 'Encontrei o espaço perfeito para minha clínica. O teatro é excelente para palestras e eventos do corpo clínico. O suporte da equipe é excepcional.',
     rating: 5,
-    company: 'Design Lab'
+    specialty: 'Cardiologia'
   },
   {
     id: 3,
-    name: 'Ana Paula Ferreira',
-    role: 'Diretora de Operações, Consultoria XYZ',
-    avatar: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?auto=format&fit=crop&w=150&q=80',
-    content: 'Como proprietária de 5 salas comerciais, o WorkNow simplificou toda minha gestão. Os relatórios financeiros e a automação de cobranças são fantásticos.',
+    name: 'Dra. Ana Paula Ferreira',
+    role: 'Psicóloga',
+    avatar: 'https://images.unsplash.com/photo-1594824476967-48c8b964273f?auto=format&fit=crop&w=150&q=80',
+    content: 'O ambiente do Essenza é perfeito para atendimentos que exigem privacidade e conforto. Meus pacientes sempre elogiam a estrutura e a localização.',
     rating: 5,
-    company: 'Consultoria XYZ'
+    specialty: 'Psicologia'
   },
   {
     id: 4,
-    name: 'Carlos Mendes',
-    role: 'Advogado, Mendes & Associados',
-    avatar: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&w=150&q=80',
-    content: 'A segurança jurídica dos contratos digitais e a facilidade de pagamento pelo Stripe me deram total tranquilidade. Recomendo para todos os profissionais liberais.',
+    name: 'Dr. Carlos Mendes',
+    role: 'Ortopedista',
+    avatar: 'https://images.unsplash.com/photo-1537368910025-700350fe46c7?auto=format&fit=crop&w=150&q=80',
+    content: 'A flexibilidade de reservar apenas os períodos que preciso foi decisiva. O sistema de pagamento via Stripe é seguro e prático. Recomendo para todos os colegas.',
     rating: 5,
-    company: 'Mendes & Associados'
+    specialty: 'Ortopedia'
   },
   {
     id: 5,
-    name: 'Juliana Costa',
-    role: 'Arquiteta, Studio JC',
-    avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=150&q=80',
-    content: 'A busca inteligente me ajudou a encontrar exatamente o que precisava: um espaço criativo com boa iluminação natural. Em 3 dias já estava instalada!',
+    name: 'Dra. Juliana Costa',
+    role: 'Nutricionista',
+    avatar: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=150&q=80',
+    content: 'O estúdio de podcast me permitiu expandir meu trabalho para o digital. Gravo meus conteúdos com qualidade profissional e atendo pacientes no mesmo dia.',
     rating: 5,
-    company: 'Studio JC'
+    specialty: 'Nutrição'
   }
 ]
 
@@ -59,8 +59,8 @@ const TestimonialCard = ({ testimonial, isActive }) => {
     >
       {/* Quote Icon */}
       <div className="absolute -top-6 left-8">
-        <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-primary-500 to-emerald-500 flex items-center justify-center shadow-lg">
-          <Quote className="w-6 h-6 text-white" />
+        <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-primary-500 to-primary-400 flex items-center justify-center shadow-lg">
+          <Quote className="w-6 h-6 text-neutral-900" />
         </div>
       </div>
 
@@ -118,7 +118,7 @@ const TestimonialsSection = () => {
       {/* Decorative Background */}
       <div className="absolute inset-0 pointer-events-none">
         <div className="absolute top-1/4 -left-32 w-96 h-96 bg-primary-100 rounded-full blur-3xl opacity-40" />
-        <div className="absolute bottom-1/4 -right-32 w-96 h-96 bg-accent-100 rounded-full blur-3xl opacity-30" />
+        <div className="absolute bottom-1/4 -right-32 w-96 h-96 bg-primary-100 rounded-full blur-3xl opacity-30" />
       </div>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
@@ -128,10 +128,10 @@ const TestimonialsSection = () => {
             Depoimentos
           </span>
           <h2 className="text-3xl md:text-5xl font-bold text-neutral-900 mb-6 tracking-tight">
-            O que nossos <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary-600 to-emerald-600">clientes</span> dizem
+            O que nosso <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary-600 to-primary-400">corpo clínico</span> diz
           </h2>
           <p className="text-lg text-neutral-600 font-medium">
-            Milhares de profissionais e empresas já transformaram sua forma de trabalhar com o WorkNow.
+            Profissionais de saúde que escolheram o Essenza Medical Center para seus atendimentos.
           </p>
         </div>
 
@@ -169,7 +169,7 @@ const TestimonialsSection = () => {
                   key={index}
                   onClick={() => setCurrent(index)}
                   className={`h-2.5 rounded-full transition-all duration-300 ${index === current
-                      ? 'w-8 bg-gradient-to-r from-primary-500 to-emerald-500'
+                      ? 'w-8 bg-gradient-to-r from-primary-500 to-primary-400'
                       : 'w-2.5 bg-neutral-300 hover:bg-neutral-400'
                     }`}
                   aria-label={`Go to testimonial ${index + 1}`}
@@ -187,13 +187,13 @@ const TestimonialsSection = () => {
           </div>
         </div>
 
-        {/* Trust Logos */}
+        {/* Specialties */}
         <div className="mt-20 text-center">
-          <p className="text-sm text-neutral-500 mb-6 font-medium">Empresas que confiam no WorkNow</p>
+          <p className="text-sm text-neutral-500 mb-6 font-medium">Especialidades presentes no Essenza</p>
           <div className="flex flex-wrap items-center justify-center gap-8 md:gap-12 opacity-60">
-            {['TechStart', 'Design Lab', 'Consultoria XYZ', 'Mendes & Associados', 'Studio JC'].map((company, i) => (
+            {['Dermatologia', 'Cardiologia', 'Psicologia', 'Ortopedia', 'Nutrição'].map((specialty, i) => (
               <span key={i} className="text-lg font-bold text-neutral-500 hover:text-neutral-700 transition-colors">
-                {company}
+                {specialty}
               </span>
             ))}
           </div>

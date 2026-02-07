@@ -4,32 +4,32 @@ import { ChevronDown, HelpCircle } from 'lucide-react'
 
 const faqs = [
   {
-    question: 'Como funciona o processo de locação?',
-    answer: 'É simples! Primeiro, você busca o espaço ideal usando nossos filtros avançados. Depois, agenda uma visita diretamente pela plataforma. Se gostar, você assina o contrato digitalmente e realiza o pagamento de forma segura via Stripe. Todo o processo pode ser concluído em menos de 24 horas.'
+    question: 'Como funciona a reserva de períodos?',
+    answer: 'Nosso sistema funciona com dois turnos fixos: manhã (08h-13h) e tarde (14h-19h). Você pode reservar quantos períodos precisar, visualizando a disponibilidade em tempo real no calendário. A confirmação é instantânea após o pagamento.'
   },
   {
     question: 'Quais são as formas de pagamento aceitas?',
-    answer: 'Aceitamos cartões de crédito (Visa, Mastercard, American Express), cartões de débito, PIX e boleto bancário. Todos os pagamentos são processados de forma segura através do Stripe, garantindo a proteção dos seus dados.'
+    answer: 'Aceitamos cartões de crédito (Visa, Mastercard, American Express), cartões de débito e PIX. Todos os pagamentos são processados de forma segura através do Stripe, garantindo a proteção dos seus dados.'
   },
   {
     question: 'Posso cancelar minha reserva?',
-    answer: 'Sim! Oferecemos cancelamento gratuito até 48 horas antes da data de início da locação. Após esse período, pode haver uma taxa de cancelamento conforme as políticas do proprietário. Consulte os termos específicos de cada espaço.'
+    answer: 'Sim! Oferecemos cancelamento gratuito até 48 horas antes do período reservado. Após esse prazo, pode haver uma taxa de cancelamento. Consulte nossa política de cancelamento para mais detalhes.'
   },
   {
-    question: 'Como funciona a segurança dos contratos digitais?',
-    answer: 'Nossos contratos digitais são juridicamente válidos e seguem todas as normas da legislação brasileira. Utilizamos assinatura eletrônica com certificação digital, garantindo autenticidade e integridade. Todos os documentos ficam armazenados de forma segura na nuvem.'
+    question: 'O que está incluso no valor do período?',
+    answer: 'O valor inclui o uso completo do espaço equipado, climatização, internet de alta velocidade, recepção compartilhada, estacionamento e áreas comuns. Cada consultório possui mobiliário ergonômico e ponto de rede dedicado.'
   },
   {
-    question: 'Sou proprietário, como anuncio meu espaço?',
-    answer: 'Cadastre-se gratuitamente na plataforma e acesse o painel de proprietário. Lá você pode adicionar fotos, descrição, preços e disponibilidade do seu espaço. Após a aprovação, seu anúncio estará disponível para milhares de profissionais. Cobramos apenas uma pequena comissão sobre as reservas confirmadas.'
+    question: 'Como faço para me tornar parte do corpo clínico?',
+    answer: 'Crie sua conta gratuitamente na plataforma e complete seu cadastro profissional. Após a aprovação, você terá acesso ao sistema de reservas e poderá agendar seus atendimentos nos espaços disponíveis.'
   },
   {
-    question: 'Qual a taxa cobrada pelo WorkNow?',
-    answer: 'Para locatários, não há taxa adicional - você paga apenas o valor do aluguel. Para proprietários, cobramos uma comissão de 10% sobre cada reserva confirmada. Essa taxa cobre o processamento de pagamentos, marketing, suporte e todas as ferramentas de gestão.'
+    question: 'Qual a infraestrutura disponível?',
+    answer: 'O Essenza Medical Center conta com 14 consultórios médicos totalmente equipados, um estúdio de podcast profissional, um teatro para até 100 pessoas e um hub digital para coworking e networking entre profissionais de saúde.'
   },
   {
-    question: 'O WorkNow oferece suporte ao cliente?',
-    answer: 'Sim! Nossa equipe de suporte está disponível de segunda a sexta, das 8h às 20h, via chat, e-mail e telefone. Para questões urgentes, oferecemos atendimento 24 horas para reservas ativas. Também temos uma central de ajuda completa com tutoriais e FAQs.'
+    question: 'O Essenza oferece suporte ao profissional?',
+    answer: 'Sim! Nossa equipe de suporte está disponível de segunda a sexta, das 8h às 20h, via chat, e-mail e telefone. Para questões urgentes durante seus atendimentos, oferecemos suporte presencial imediato.'
   }
 ]
 
@@ -52,7 +52,7 @@ const AccordionItem = ({ faq, isOpen, onToggle, index }) => {
         </span>
         <div className={`flex-shrink-0 ml-4 w-10 h-10 rounded-full flex items-center justify-center transition-all duration-300 ${
           isOpen
-            ? 'bg-primary-600 text-white rotate-180'
+            ? 'bg-primary-500 text-neutral-900 rotate-180'
             : 'bg-neutral-100 text-neutral-500 group-hover:bg-primary-100 group-hover:text-primary-600'
         }`}>
           <ChevronDown className="w-5 h-5" />
@@ -84,7 +84,7 @@ const FAQSection = () => {
       {/* Decorative Background */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <div className="absolute top-20 right-10 w-72 h-72 bg-primary-100 rounded-full blur-3xl opacity-30" />
-        <div className="absolute bottom-20 left-10 w-96 h-96 bg-accent-100 rounded-full blur-3xl opacity-20" />
+        <div className="absolute bottom-20 left-10 w-96 h-96 bg-primary-100 rounded-full blur-3xl opacity-20" />
       </div>
 
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
@@ -95,10 +95,10 @@ const FAQSection = () => {
             <span>Dúvidas Frequentes</span>
           </div>
           <h2 className="text-3xl md:text-5xl font-bold text-neutral-900 mb-6 tracking-tight">
-            Perguntas <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary-600 to-emerald-600">Frequentes</span>
+            Perguntas <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary-600 to-primary-400">Frequentes</span>
           </h2>
           <p className="text-lg text-neutral-600 font-medium max-w-2xl mx-auto">
-            Encontre respostas para as perguntas mais comuns sobre nossa plataforma.
+            Encontre respostas para as perguntas mais comuns sobre o Essenza Medical Center.
           </p>
         </div>
 
@@ -121,7 +121,7 @@ const FAQSection = () => {
             Não encontrou o que procurava?
           </p>
           <a
-            href="mailto:suporte@worknow.com.br"
+            href="mailto:contato@essenzamedical.com.br"
             className="inline-flex items-center gap-2 text-primary-600 font-semibold hover:text-primary-700 transition-colors"
           >
             Entre em contato com nossa equipe

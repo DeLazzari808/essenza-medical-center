@@ -56,7 +56,7 @@ const PublicLayout = ({ children }) => {
             <Link href="/" className="flex items-center gap-3 group">
               <LogoDisplay />
               <span className="text-xl font-bold tracking-tight text-neutral-900">
-                WorkNow
+                Essenza
               </span>
             </Link>
 
@@ -90,7 +90,7 @@ const PublicLayout = ({ children }) => {
                     variant="primary"
                     className="shadow-lg shadow-primary-500/20 rounded-full px-6 py-2 text-sm font-semibold hover:shadow-primary-500/40 transition-all hover:scale-105 active:scale-95"
                   >
-                    Começar Grátis
+                    Reserve seu Espaço
                   </Button>
                 </Link>
               )}
@@ -138,7 +138,7 @@ const PublicLayout = ({ children }) => {
               {pathname !== '/register' && (
                 <Link href="/register" className="block">
                   <Button variant="primary" className="w-full justify-center">
-                    Começar Grátis
+                    Reserve seu Espaço
                   </Button>
                 </Link>
               )}

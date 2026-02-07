@@ -29,7 +29,7 @@ const AppLayout = ({ children }) => {
   const { user: clerkUser } = useUser()
   const { profile } = useAuthStore()
   const isOwner = profile?.role === 'owner'
-  const [logoSrc, setLogoSrc] = useState('/assets/images/logo.svg')
+  const [logoSrc, setLogoSrc] = useState('/assets/images/LOGO ESSENZA_page-0002.jpg')
   const [showFallback, setShowFallback] = useState(false)
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false)
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
@@ -73,11 +73,10 @@ const AppLayout = ({ children }) => {
     return (
       <Link
         href={item.path}
-        className={`flex items-center gap-3 px-3 py-2.5 rounded-xl transition-all duration-200 group ${
-          isActive
-            ? 'bg-gradient-to-r from-primary-500 to-primary-600 text-white shadow-md shadow-primary-500/20'
-            : 'text-neutral-600 hover:bg-neutral-100 hover:text-neutral-900'
-        } ${collapsed ? 'justify-center' : ''}`}
+        className={`flex items-center gap-3 px-3 py-2.5 rounded-xl transition-all duration-200 group ${isActive
+          ? 'bg-gradient-to-r from-primary-500 to-primary-600 text-white shadow-md shadow-primary-500/20'
+          : 'text-neutral-600 hover:bg-neutral-100 hover:text-neutral-900'
+          } ${collapsed ? 'justify-center' : ''}`}
         title={collapsed ? item.label : undefined}
       >
         <Icon className={`w-5 h-5 flex-shrink-0 ${isActive ? '' : 'group-hover:scale-110 transition-transform'}`} />
@@ -92,9 +91,8 @@ const AppLayout = ({ children }) => {
     <div className="min-h-screen bg-gradient-soft flex">
       {/* Desktop Sidebar */}
       <aside
-        className={`hidden lg:flex flex-col bg-white border-r border-neutral-200/50 transition-all duration-300 ${
-          sidebarCollapsed ? 'w-20' : 'w-64'
-        }`}
+        className={`hidden lg:flex flex-col bg-white border-r border-neutral-200/50 transition-all duration-300 ${sidebarCollapsed ? 'w-20' : 'w-64'
+          }`}
       >
         {/* Sidebar Header */}
         <div className={`h-20 flex items-center border-b border-neutral-100 ${sidebarCollapsed ? 'justify-center px-2' : 'justify-between px-4'}`}>
@@ -102,8 +100,8 @@ const AppLayout = ({ children }) => {
             {!showFallback ? (
               <img
                 src={logoSrc}
-                alt="WorkNow Logo"
-                className={`${sidebarCollapsed ? 'h-10' : 'h-12'} w-auto`}
+                alt="Essenza Medical Center"
+                className={`${sidebarCollapsed ? 'h-12' : 'h-16'} w-auto`}
                 onError={() => {
                   if (logoSrc.includes('.svg')) {
                     setLogoSrc('/assets/images/logo.png')
@@ -117,9 +115,7 @@ const AppLayout = ({ children }) => {
                 <Building2 className={`${sidebarCollapsed ? 'w-5 h-5' : 'w-6 h-6'} text-white`} />
               </div>
             )}
-            {!sidebarCollapsed && (
-              <span className="text-lg font-semibold text-neutral-800">WorkNow</span>
-            )}
+
           </Link>
           {!sidebarCollapsed && (
             <button
@@ -174,7 +170,7 @@ const AppLayout = ({ children }) => {
                   {displayName}
                 </p>
                 <p className="text-xs text-neutral-500 truncate">
-                  {isOwner ? 'Proprietário' : 'Locatário'}
+                  {isOwner ? 'Administrador' : 'Médico'}
                 </p>
               </div>
             )}
@@ -209,8 +205,8 @@ const AppLayout = ({ children }) => {
               {!showFallback ? (
                 <img
                   src={logoSrc}
-                  alt="WorkNow Logo"
-                  className="h-10 w-auto"
+                  alt="Essenza Medical Center"
+                  className="h-14 w-auto"
                   onError={() => {
                     if (logoSrc.includes('.svg')) {
                       setLogoSrc('/assets/images/logo.png')
@@ -224,7 +220,7 @@ const AppLayout = ({ children }) => {
                   <Building2 className="w-5 h-5 text-white" />
                 </div>
               )}
-              <span className="text-lg font-semibold text-neutral-800">WorkNow</span>
+
             </Link>
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
@@ -250,9 +246,8 @@ const AppLayout = ({ children }) => {
 
         {/* Mobile Menu Panel */}
         <div
-          className={`lg:hidden fixed top-16 right-0 bottom-0 z-40 w-72 bg-white shadow-xl transform transition-transform duration-300 ${
-            mobileMenuOpen ? 'translate-x-0' : 'translate-x-full'
-          }`}
+          className={`lg:hidden fixed top-16 right-0 bottom-0 z-40 w-72 bg-white shadow-xl transform transition-transform duration-300 ${mobileMenuOpen ? 'translate-x-0' : 'translate-x-full'
+            }`}
         >
           <nav className="p-4 space-y-1">
             {navItems.map((item) => {
@@ -263,11 +258,10 @@ const AppLayout = ({ children }) => {
                   key={item.path}
                   href={item.path}
                   onClick={() => setMobileMenuOpen(false)}
-                  className={`flex items-center gap-3 px-4 py-3 rounded-xl transition-colors ${
-                    isActive
-                      ? 'bg-gradient-to-r from-primary-500 to-primary-600 text-white'
-                      : 'text-neutral-700 hover:bg-neutral-100'
-                  }`}
+                  className={`flex items-center gap-3 px-4 py-3 rounded-xl transition-colors ${isActive
+                    ? 'bg-gradient-to-r from-primary-500 to-primary-600 text-white'
+                    : 'text-neutral-700 hover:bg-neutral-100'
+                    }`}
                 >
                   <Icon className="w-5 h-5" />
                   <span className="font-medium">{item.label}</span>
@@ -285,11 +279,10 @@ const AppLayout = ({ children }) => {
                   key={item.path}
                   href={item.path}
                   onClick={() => setMobileMenuOpen(false)}
-                  className={`flex items-center gap-3 px-4 py-3 rounded-xl transition-colors ${
-                    isActive
-                      ? 'bg-gradient-to-r from-primary-500 to-primary-600 text-white'
-                      : 'text-neutral-700 hover:bg-neutral-100'
-                  }`}
+                  className={`flex items-center gap-3 px-4 py-3 rounded-xl transition-colors ${isActive
+                    ? 'bg-gradient-to-r from-primary-500 to-primary-600 text-white'
+                    : 'text-neutral-700 hover:bg-neutral-100'
+                    }`}
                 >
                   <Icon className="w-5 h-5" />
                   <span className="font-medium">{item.label}</span>
@@ -309,7 +302,7 @@ const AppLayout = ({ children }) => {
                   {displayName}
                 </p>
                 <p className="text-xs text-neutral-500">
-                  {isOwner ? 'Proprietário' : 'Locatário'}
+                  {isOwner ? 'Administrador' : 'Médico'}
                 </p>
               </div>
             </div>

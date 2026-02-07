@@ -10,7 +10,7 @@ import { mockSupabase } from './mockService'
 import { createClient } from '@supabase/supabase-js'
 
 // Flag para forçar uso do mock (útil para desenvolvimento)
-const FORCE_MOCK = true // Altere para false quando Supabase estiver disponível
+const FORCE_MOCK = false // Altere para true para usar dados mock locais
 
 function getSupabaseClient() {
   if (FORCE_MOCK) {

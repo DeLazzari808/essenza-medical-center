@@ -1,39 +1,39 @@
 // @ts-nocheck
 import React from 'react'
 import {
-  Search,
+  Building2,
   CalendarCheck,
-  KeyRound,
+  CreditCard,
   ArrowRight
 } from 'lucide-react'
 
 const steps = [
   {
     number: '01',
-    icon: Search,
-    title: 'Encontre o Espaço Ideal',
-    description: 'Navegue por centenas de salas comerciais, filtre por localização, preço e comodidades. Nossa busca inteligente sugere as melhores opções para seu perfil.',
-    gradient: 'from-blue-500 to-cyan-500',
-    bgColor: 'bg-blue-50',
-    borderColor: 'border-blue-200',
+    icon: Building2,
+    title: 'Escolha seu Espaço',
+    description: 'Navegue pelos nossos 14 consultórios médicos, estúdio de podcast, teatro para 100 pessoas ou hub digital. Cada espaço foi projetado para atender suas necessidades.',
+    gradient: 'from-primary-500 to-primary-400',
+    bgColor: 'bg-primary-50',
+    borderColor: 'border-primary-200',
   },
   {
     number: '02',
     icon: CalendarCheck,
-    title: 'Agende uma Visita',
-    description: 'Escolha o melhor horário diretamente na plataforma. Sem ligações, sem e-mails intermináveis. Confirmação instantânea no seu celular.',
-    gradient: 'from-purple-500 to-pink-500',
-    bgColor: 'bg-purple-50',
-    borderColor: 'border-purple-200',
+    title: 'Selecione seus Períodos',
+    description: 'Escolha os turnos que deseja reservar: manhã (08h-13h) ou tarde (14h-19h). Visualize a disponibilidade em tempo real e faça múltiplas reservas.',
+    gradient: 'from-neutral-700 to-neutral-600',
+    bgColor: 'bg-neutral-100',
+    borderColor: 'border-neutral-200',
   },
   {
     number: '03',
-    icon: KeyRound,
-    title: 'Feche o Contrato',
-    description: 'Assine digitalmente, pague com segurança via Stripe e receba as chaves. Todo o processo jurídico simplificado em poucos cliques.',
-    gradient: 'from-emerald-500 to-teal-500',
-    bgColor: 'bg-emerald-50',
-    borderColor: 'border-emerald-200',
+    icon: CreditCard,
+    title: 'Confirme sua Reserva',
+    description: 'Finalize sua reserva com pagamento seguro via Stripe. Receba confirmação instantânea e acesse seu espaço no horário agendado.',
+    gradient: 'from-primary-600 to-primary-500',
+    bgColor: 'bg-primary-50',
+    borderColor: 'border-primary-200',
   },
 ]
 
@@ -87,7 +87,7 @@ const HowItWorksSection = () => {
       {/* Decorative Background */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <div className="absolute top-20 left-10 w-72 h-72 bg-primary-100 rounded-full blur-3xl opacity-30" />
-        <div className="absolute bottom-20 right-10 w-96 h-96 bg-accent-100 rounded-full blur-3xl opacity-20" />
+        <div className="absolute bottom-20 right-10 w-96 h-96 bg-primary-100 rounded-full blur-3xl opacity-20" />
       </div>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
@@ -97,10 +97,10 @@ const HowItWorksSection = () => {
             Simples e Rápido
           </span>
           <h2 className="text-3xl md:text-5xl font-bold text-neutral-900 mb-6 tracking-tight">
-            Como <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary-600 to-emerald-600">Funciona</span>
+            Como <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary-600 to-primary-400">Funciona</span>
           </h2>
           <p className="text-lg text-neutral-600 font-medium">
-            Em apenas três passos simples, você encontra e aluga o espaço perfeito para o seu negócio.
+            Em apenas três passos simples, você reserva o espaço ideal para seu atendimento.
           </p>
         </div>
 
@@ -119,16 +119,16 @@ const HowItWorksSection = () => {
         {/* Bottom Stats */}
         <div className="mt-20 grid grid-cols-2 md:grid-cols-4 gap-6">
           {[
-            { value: '500+', label: 'Salas Disponíveis' },
-            { value: '2.000+', label: 'Usuários Ativos' },
-            { value: '98%', label: 'Satisfação' },
-            { value: '24h', label: 'Tempo Médio de Resposta' },
+            { value: '14', label: 'Consultórios' },
+            { value: '100', label: 'Lugares no Teatro' },
+            { value: '2', label: 'Turnos por Dia' },
+            { value: '24h', label: 'Suporte' },
           ].map((stat, i) => (
             <div
               key={i}
               className="text-center p-6 rounded-2xl bg-white/60 backdrop-blur-sm border border-neutral-100 hover:border-primary-200 hover:shadow-md transition-all duration-300"
             >
-              <div className="text-3xl md:text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-primary-600 to-emerald-600 mb-2">
+              <div className="text-3xl md:text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-primary-600 to-primary-400 mb-2">
                 {stat.value}
               </div>
               <div className="text-sm text-neutral-600 font-medium">{stat.label}</div>

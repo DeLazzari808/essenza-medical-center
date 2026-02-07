@@ -38,7 +38,7 @@ const AMENITIES = [
 ]
 
 const STEPS = [
-  { id: 1, title: 'Informações', description: 'Dados básicos da sala', icon: Building2 },
+  { id: 1, title: 'Informações', description: 'Dados básicos do espaço', icon: Building2 },
   { id: 2, title: 'Localização', description: 'Endereço completo', icon: MapPin },
   { id: 3, title: 'Comodidades', description: 'Recursos disponíveis', icon: Check },
   { id: 4, title: 'Fotos', description: 'Galeria de imagens', icon: ImageIcon },
@@ -129,6 +129,17 @@ const RoomForm = () => {
   const { createRoom, updateRoom, fetchRoom } = useRooms()
   const { showToast } = useToast()
 
+  // Verificar se o usuário é administrador
+  const isAdmin = profile?.role === 'owner'
+
+  // Redirecionar se não for admin
+  useEffect(() => {
+    if (profile && !isAdmin) {
+      showToast('Acesso restrito a administradores', 'error')
+      router.push('/app/rooms')
+    }
+  }, [profile, isAdmin, router, showToast])
+
   const [loading, setLoading] = useState(false)
   const [currentStep, setCurrentStep] = useState(1)
   const [formData, setFormData] = useState({
@@ -172,7 +183,7 @@ const RoomForm = () => {
         setImages(room.images || [])
       }
     } catch (err) {
-      showToast('Erro ao carregar dados da sala', 'error')
+      showToast('Erro ao carregar dados do espaço', 'error')
     } finally {
       setLoading(false)
     }
@@ -211,7 +222,7 @@ const RoomForm = () => {
           newErrors.title = 'Título é obrigatório'
         }
         if (!formData.price_per_day || parseFloat(formData.price_per_day) <= 0) {
-          newErrors.price_per_day = 'Preço por dia é obrigatório'
+          newErrors.price_per_day = 'Preço por período é obrigatório'
         }
         if (!formData.capacity || parseInt(formData.capacity) <= 0) {
           newErrors.capacity = 'Capacidade é obrigatória'
@@ -310,16 +321,16 @@ const RoomForm = () => {
 
       if (result.success) {
         showToast(
-          isEditing ? 'Sala atualizada com sucesso!' : 'Sala criada com sucesso!',
+          isEditing ? 'Espaço atualizado com sucesso!' : 'Espaço criado com sucesso!',
           'success'
         )
         router.push('/rooms')
       } else {
-        showToast(result.error || 'Erro ao salvar sala', 'error')
+        showToast(result.error || 'Erro ao salvar espaço', 'error')
       }
     } catch (err) {
       console.error('Error saving room:', err)
-      showToast('Erro ao salvar sala', 'error')
+      showToast('Erro ao salvar espaço', 'error')
     } finally {
       setLoading(false)
     }
@@ -343,18 +354,18 @@ const RoomForm = () => {
                 <Building2 className="w-5 h-5" />
               </div>
               <div>
-                <h2 className="text-lg font-bold text-neutral-800">Detalhes da Sala</h2>
-                <p className="text-sm text-neutral-500">Informações básicas sobre o espaço</p>
+                <h2 className="text-lg font-bold text-neutral-800">Detalhes do Espaço</h2>
+                <p className="text-sm text-neutral-500">Informações básicas sobre o espaço clínico</p>
               </div>
             </div>
 
             <div className="space-y-6">
               <Input
-                label="Nome da Sala"
+                label="Nome do Espaço"
                 name="title"
                 value={formData.title}
                 onChange={handleChange}
-                placeholder="Ex: Sala de Reuniões Executiva"
+                placeholder="Ex: Sala Médica 01, Estúdio de Podcast"
                 error={errors.title}
                 icon={FileText}
                 required
@@ -384,7 +395,7 @@ const RoomForm = () => {
                 />
 
                 <Input
-                  label="Preço por Dia (R$)"
+                  label="Preço por Período (R$)"
                   name="price_per_day"
                   type="number"
                   step="0.01"
@@ -572,10 +583,10 @@ const RoomForm = () => {
             Voltar para lista
           </Button>
           <h1 className="text-3xl font-display font-bold text-neutral-900">
-            {isEditing ? 'Editar Sala' : 'Cadastrar Nova Sala'}
+            {isEditing ? 'Editar Espaço' : 'Cadastrar Novo Espaço'}
           </h1>
           <p className="text-neutral-500">
-            Preencha as informações abaixo para disponibilizar seu espaço.
+            Preencha as informações abaixo para configurar o espaço clínico.
           </p>
         </div>
       </div>
@@ -630,7 +641,7 @@ const RoomForm = () => {
                 variant="primary"
                 disabled={loading}
               >
-                {loading ? 'Salvando...' : isEditing ? 'Salvar Alterações' : 'Publicar Sala'}
+                {loading ? 'Salvando...' : isEditing ? 'Salvar Alterações' : 'Publicar Espaço'}
                 <Check className="w-4 h-4 ml-2" />
               </Button>
             )}
@@ -641,7 +652,7 @@ const RoomForm = () => {
       {/* Summary Preview on Last Step */}
       {currentStep === STEPS.length && (
         <Card className="border-0 shadow-medium bg-gradient-to-br from-primary-50 to-white mt-6">
-          <h3 className="text-lg font-bold text-neutral-800 mb-4">Resumo da Sala</h3>
+          <h3 className="text-lg font-bold text-neutral-800 mb-4">Resumo do Espaço</h3>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             <div className="p-3 bg-white rounded-lg border border-neutral-100">
               <p className="text-xs text-neutral-500 mb-1">Nome</p>
@@ -656,7 +667,7 @@ const RoomForm = () => {
               <p className="font-semibold text-neutral-800">{formData.capacity || '-'} pessoas</p>
             </div>
             <div className="p-3 bg-white rounded-lg border border-neutral-100">
-              <p className="text-xs text-neutral-500 mb-1">Preço/dia</p>
+              <p className="text-xs text-neutral-500 mb-1">Preço/período</p>
               <p className="font-semibold text-neutral-800">R$ {formData.price_per_day || '-'}</p>
             </div>
           </div>
