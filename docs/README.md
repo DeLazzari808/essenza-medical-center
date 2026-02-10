@@ -1,4 +1,4 @@
-# 📚 Documentação WorkNow
+# 📚 Documentação Essenza Medical Center
 
 Esta pasta contém toda a documentação do projeto WorkNow, organizada por categorias.
 
