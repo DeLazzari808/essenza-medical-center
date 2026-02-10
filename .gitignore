@@ -54,3 +54,9 @@ coverage/
 # Local development
 .temp/
 tmp/
+
+# claude
+claude
+.claude
+ralph
+.ralph
