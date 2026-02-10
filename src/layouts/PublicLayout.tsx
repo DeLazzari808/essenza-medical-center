@@ -36,14 +36,13 @@ const PublicLayout = ({ children }) => {
 
   const isAuthPage = pathname === '/login' || pathname === '/register'
   const isLandingPage = pathname === '/'
-  const showHeader = !isLandingPage || scrolled
+  const showHeader = !isAuthPage && !isLandingPage
 
   return (
     <div className="min-h-screen bg-neutral-50">
       {/* Header */}
       <header
-        className={`fixed top-0 inset-x-0 z-50 transition-all duration-500 ${scrolled ? 'py-2' : 'py-4'
-          } ${!showHeader ? 'opacity-0 pointer-events-none' : 'opacity-100'}`}
+        className={`fixed top-0 inset-x-0 z-50 transition-all duration-500 ${scrolled ? 'py-1' : 'py-3'} ${!showHeader ? 'opacity-0 pointer-events-none' : 'opacity-100'}`}
       >
         <div
           className={`absolute inset-0 transition-all duration-500 ${scrolled
@@ -52,12 +51,9 @@ const PublicLayout = ({ children }) => {
             }`}
         />
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
-          <div className="flex justify-between items-center h-16">
-            <Link href="/" className="flex items-center gap-3 group">
+          <div className="flex justify-between items-center h-14 overflow-hidden">
+            <Link href="/" className="flex items-center h-full overflow-hidden">
               <LogoDisplay />
-              <span className="text-xl font-bold tracking-tight text-neutral-900">
-                Essenza
-              </span>
             </Link>
 
             <nav className="hidden md:flex items-center gap-8">

@@ -182,13 +182,12 @@ const LandingPage = () => {
     <div className="min-h-screen bg-neutral-50 selection:bg-primary-200 selection:text-primary-900 overflow-x-hidden font-sans">
 
       {/* Navbar - Scroll Aware */}
-      <nav className={`fixed top-0 inset-x-0 z-50 transition-all duration-500 ${scrolled ? 'py-2' : 'py-6'}`}>
-        <div className={`absolute inset-0 transition-all duration-500 ${scrolled ? 'bg-white/80 backdrop-blur-xl shadow-md border-b border-white/20' : 'bg-transparent'}`} />
+      <nav className={`fixed top-0 inset-x-0 z-50 transition-all duration-500 ${scrolled ? 'py-1' : 'py-3'}`}>
+        <div className={`absolute inset-0 transition-all duration-500 ${scrolled ? 'bg-neutral-50/90 backdrop-blur-xl shadow-md border-b border-neutral-200/50' : 'bg-neutral-50/60 backdrop-blur-sm'}`} />
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
-          <div className="flex justify-between items-center h-16">
-            <div className="flex items-center gap-3">
+          <div className="flex justify-between items-center h-14 overflow-hidden">
+            <div className="flex items-center h-full overflow-hidden">
               <LogoDisplay />
-              <span className={`text-xl font-bold tracking-tight transition-colors duration-300 ${scrolled ? 'text-neutral-900' : 'text-neutral-900'}`}>Essenza</span>
             </div>
             <div className="flex items-center gap-4 hidden sm:flex">
               <Link href="/login">

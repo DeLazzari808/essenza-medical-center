@@ -29,7 +29,7 @@ const AppLayout = ({ children }) => {
   const { user: clerkUser } = useUser()
   const { profile } = useAuthStore()
   const isOwner = profile?.role === 'owner'
-  const [logoSrc, setLogoSrc] = useState('/assets/images/LOGO ESSENZA_page-0002.jpg')
+  const [logoSrc, setLogoSrc] = useState('/assets/images/essenza-logo.svg')
   const [showFallback, setShowFallback] = useState(false)
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false)
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
@@ -95,13 +95,13 @@ const AppLayout = ({ children }) => {
           }`}
       >
         {/* Sidebar Header */}
-        <div className={`h-20 flex items-center border-b border-neutral-100 ${sidebarCollapsed ? 'justify-center px-2' : 'justify-between px-4'}`}>
-          <Link href="/app/dashboard" className="flex items-center gap-3 group">
+        <div className={`h-16 flex items-center border-b border-neutral-100 ${sidebarCollapsed ? 'justify-center' : 'justify-center'} overflow-hidden`}>
+          <Link href="/app/dashboard" className="flex items-center">
             {!showFallback ? (
               <img
                 src={logoSrc}
                 alt="Essenza Medical Center"
-                className={`${sidebarCollapsed ? 'h-12' : 'h-16'} w-auto`}
+                className={`${sidebarCollapsed ? 'h-12 max-h-full' : 'h-14 max-h-full'} w-auto object-contain`}
                 onError={() => {
                   if (logoSrc.includes('.svg')) {
                     setLogoSrc('/assets/images/logo.png')
@@ -111,21 +111,12 @@ const AppLayout = ({ children }) => {
                 }}
               />
             ) : (
-              <div className={`${sidebarCollapsed ? 'w-10 h-10' : 'w-11 h-11'} rounded-xl bg-gradient-to-br from-primary-500 to-primary-600 flex items-center justify-center shadow-md group-hover:shadow-lg transition-shadow`}>
-                <Building2 className={`${sidebarCollapsed ? 'w-5 h-5' : 'w-6 h-6'} text-white`} />
+              <div className={`${sidebarCollapsed ? 'w-12 h-12' : 'w-14 h-14'} rounded-xl bg-gradient-to-br from-primary-500 to-primary-600 flex items-center justify-center shadow-md group-hover:shadow-lg transition-shadow`}>
+                <Building2 className={`${sidebarCollapsed ? 'w-6 h-6' : 'w-7 h-7'} text-white`} />
               </div>
             )}
 
           </Link>
-          {!sidebarCollapsed && (
-            <button
-              onClick={() => setSidebarCollapsed(true)}
-              className="p-1.5 rounded-lg hover:bg-neutral-100 text-neutral-400 hover:text-neutral-600 transition-colors"
-              aria-label="Colapsar menu"
-            >
-              <ChevronLeft className="w-5 h-5" />
-            </button>
-          )}
         </div>
 
         {/* Expand Button (when collapsed) */}
@@ -200,13 +191,13 @@ const AppLayout = ({ children }) => {
       <div className="flex-1 flex flex-col min-w-0">
         {/* Mobile Header */}
         <header className="lg:hidden sticky top-0 z-40 bg-white/80 backdrop-blur-xl border-b border-neutral-200/50">
-          <div className="flex items-center justify-between h-16 px-4">
-            <Link href="/app/dashboard" className="flex items-center gap-2">
+          <div className="flex items-center justify-between h-16 px-4 overflow-hidden">
+            <Link href="/app/dashboard" className="flex items-center h-full">
               {!showFallback ? (
                 <img
                   src={logoSrc}
                   alt="Essenza Medical Center"
-                  className="h-14 w-auto"
+                  className="h-8 max-h-full w-auto object-contain"
                   onError={() => {
                     if (logoSrc.includes('.svg')) {
                       setLogoSrc('/assets/images/logo.png')
